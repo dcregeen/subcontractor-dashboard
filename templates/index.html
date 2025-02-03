@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subcontractor Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; background: #f4f4f4; }
+        table { width: 100%; border-collapse: collapse; background: #fff; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #333; color: white; }
+        form { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Subcontractor Management Dashboard</h2>
+
+    <!-- Add New Subcontractor Form -->
+    <h3>Add Subcontractor</h3>
+    <form action="/add" method="POST">
+        <input type="text" name="company_name" placeholder="Company Name" required>
+        <input type="text" name="naics_code" placeholder="NAICS Code" required>
+        <input type="text" name="uei_code" placeholder="UEI Code" required>
+        <input type="text" name="cage_code" placeholder="CAGE Code" required>
+        <input type="text" name="poc_name" placeholder="POC Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="phone" placeholder="Phone" required>
+        <input type="text" name="contract_history" placeholder="Contract History">
+        <input type="text" name="status" placeholder="Status (Pending, Approved)" required>
+        <button type="submit">Add Subcontractor</button>
+    </form>
+
+    <!-- Display Subcontractor Data -->
+    <h3>Existing Subcontractors</h3>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Company Name</th>
+            <th>NAICS Code</th>
+            <th>UEI Code</th>
+            <th>CAGE Code</th>
+            <th>POC Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Contract History</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for subcontractor in subcontractors %}
+        <tr>
+            <td>{{ subcontractor.id }}</td>
+            <td>{{ subcontractor.company_name }}</td>
+            <td>{{ subcontractor.naics_code }}</td>
+            <td>{{ subcontractor.uei_code }}</td>
+            <td>{{ subcontractor.cage_code }}</td>
+            <td>{{ subcontractor.poc_name }}</td>
+            <td>{{ subcontractor.email }}</td>
+            <td>{{ subcontractor.phone }}</td>
+            <td>{{ subcontractor.contract_history }}</td>
+            <td>
+                <form action="/update/{{ subcontractor.id }}" method="POST">
+                    <input type="text" name="status" value="{{ subcontractor.status }}" required>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+            <td>
+                <a href="/delete/{{ subcontractor.id }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
